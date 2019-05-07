@@ -14,16 +14,23 @@ class LogCollectionViewCell: UICollectionViewCell {
     var companyLabel: UILabel!
     var productivityLabel: UILabel!
     var briefDescription: UITextView!
+    var topView: UIView!
+    var bottomView: UIView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = Colors.randomColor()
+        contentView.layer.cornerRadius = 12.0
+        contentView.layer.shadowColor = UIColor.lightGray.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 2.0, height: 4.0)
+        contentView.layer.shadowRadius = 2.0
+        contentView.layer.shadowOpacity = 1.0
+        contentView.layer.masksToBounds = false
         
         dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         dateLabel.textColor = .white
-        dateLabel.backgroundColor = Colors.main
         dateLabel.textAlignment = .left
         contentView.addSubview(dateLabel)
         
@@ -31,25 +38,35 @@ class LogCollectionViewCell: UICollectionViewCell {
         companyLabel.translatesAutoresizingMaskIntoConstraints = false
         companyLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         companyLabel.textColor = .white
-        companyLabel.backgroundColor = Colors.main
         companyLabel.textAlignment = .right
         contentView.addSubview(companyLabel)
         
         productivityLabel = UILabel()
         productivityLabel.translatesAutoresizingMaskIntoConstraints = false
-        productivityLabel.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        productivityLabel.textColor = Colors.main
-        productivityLabel.backgroundColor = .white
+        productivityLabel.font = UIFont.systemFont(ofSize: 35, weight: .regular)
+        productivityLabel.textColor = .white
         productivityLabel.textAlignment = .right
         contentView.addSubview(productivityLabel)
         
         briefDescription = UITextView()
         briefDescription.isEditable = false
-        briefDescription.font = UIFont.systemFont(ofSize: 10, weight: .regular)
-        briefDescription.textColor = Colors.main
-        briefDescription.backgroundColor = .white
+        briefDescription.isScrollEnabled = false
+        briefDescription.translatesAutoresizingMaskIntoConstraints = false
+        briefDescription.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        briefDescription.textColor = .white
+        briefDescription.backgroundColor = contentView.backgroundColor
         briefDescription.textAlignment = .left
         contentView.addSubview(briefDescription)
+        
+//        topView = UIView()
+//        topView.translatesAutoresizingMaskIntoConstraints = false
+//        topView.backgroundColor = Colors.main
+//        contentView.addSubview(topView)
+        
+//        bottomView = UIView()
+//        bottomView.translatesAutoresizingMaskIntoConstraints = false
+//        bottomView.backgroundColor = .white
+//        contentView.addSubview(bottomView)
         
         setupConstraints()
     }
@@ -68,20 +85,22 @@ class LogCollectionViewCell: UICollectionViewCell {
             companyLabel.bottomAnchor.constraint(equalTo: dateLabel.bottomAnchor),
             companyLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: Constants.viewPadding/2),
             companyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -1*Constants.viewPadding/2)
+//            companyLabel.leadingAnchor.constraint(equalTo: topView.centerXAnchor, constant: Constants.viewPadding/2),
+//            companyLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor, constant: -1*Constants.viewPadding/2)
             ])
         
         NSLayoutConstraint.activate([
             productivityLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 5),
             productivityLabel.bottomAnchor.constraint(equalTo: contentView.centerYAnchor),
-            productivityLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -1*Constants.viewPadding/2),
-            productivityLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor)
+            productivityLabel.trailingAnchor.constraint(equalTo: companyLabel.trailingAnchor, constant: -1*Constants.viewPadding/2),
+            productivityLabel.leadingAnchor.constraint(equalTo: companyLabel.leadingAnchor)
             ])
         
         NSLayoutConstraint.activate([
-            briefDescription.topAnchor.constraint(equalTo: productivityLabel.bottomAnchor),
-            briefDescription.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor),
-            briefDescription.trailingAnchor.constraint(equalTo: companyLabel.trailingAnchor),
-            briefDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            briefDescription.topAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 2*Constants.viewPadding),
+            briefDescription.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            briefDescription.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            briefDescription.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -1*Constants.viewPadding)
             ])
         
     }
@@ -92,7 +111,12 @@ class LogCollectionViewCell: UICollectionViewCell {
         
         dateLabel.text = formatter.string(from: log.date)
         companyLabel.text = log.company
-        productivityLabel.text = "\u{2B51}"
+        
+        productivityLabel.text = ""
+        for x in 1...log.rating {
+            productivityLabel.text = productivityLabel.text! + "\u{2B51}"
+        }
+        
         briefDescription.text = log.description
     }
     

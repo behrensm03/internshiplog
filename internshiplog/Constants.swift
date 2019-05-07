@@ -10,4 +10,5 @@ import UIKit
 
 class Constants {
     static let viewPadding: CGFloat = 10
+    static let spacing: CGFloat = 20
 }

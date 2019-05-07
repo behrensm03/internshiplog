@@ -40,12 +40,12 @@ class ViewController: UIViewController {
         
         logsFlowLayout = UICollectionViewFlowLayout()
         logsFlowLayout.scrollDirection = .vertical
-        logsFlowLayout.minimumLineSpacing = Constants.viewPadding
-        logsFlowLayout.minimumInteritemSpacing = Constants.viewPadding
+        logsFlowLayout.minimumLineSpacing = Constants.spacing
+        logsFlowLayout.minimumInteritemSpacing = Constants.spacing
         
         logsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: logsFlowLayout)
         logsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        logsCollectionView.backgroundColor = Colors.lightGray
+        logsCollectionView.backgroundColor = .white
         logsCollectionView.dataSource = self
         logsCollectionView.delegate = self
         logsCollectionView.register(LogCollectionViewCell.self, forCellWithReuseIdentifier: logReuse)
@@ -65,7 +65,7 @@ class ViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            logsCollectionView.topAnchor.constraint(equalTo: logsLabel.bottomAnchor, constant: Constants.viewPadding),
+            logsCollectionView.topAnchor.constraint(equalTo: logsLabel.bottomAnchor, constant: 2*Constants.viewPadding),
             logsCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.viewPadding),
             logsCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -1 * Constants.viewPadding),
             logsCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1 * Constants.viewPadding)
@@ -73,11 +73,15 @@ class ViewController: UIViewController {
     }
     
     func hardCodeData() {
-        let log1 = Log(date: Date(), company: "company1", rating: 1, description: "d1")
-        let log2 = Log(date: Date(), company: "company2", rating: 1, description: "d2")
+        let log1 = Log(date: Date(), company: "company1", rating: 1, description: "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1")
+        let log2 = Log(date: Date(), company: "company2", rating: 1, description: "d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2")
+        let log3 = Log(date: Date(), company: "company2", rating: 2, description: "d3")
+        let log4 = Log(date: Date(), company: "company2", rating: 3, description: "d3")
+        let log5 = Log(date: Date(), company: "company2", rating: 4, description: "d3")
+        let log6 = Log(date: Date(), company: "company2", rating: 5, description: "d3")
         
-        originalLogs = [log1, log2]
-        displayLogs = [log1, log2]
+        originalLogs = [log1, log2, log3, log4, log5, log6]
+        displayLogs = [log1, log2, log3, log4, log5, log6]
     }
 
 
